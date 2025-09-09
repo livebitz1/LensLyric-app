@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Reduced elevation
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: Colors.light.border,
+    borderColor: "#000000", // Set border color to black
   },
   photographerImage: {
     width: "100%",

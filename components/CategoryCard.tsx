@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: Colors.light.border,
+    borderColor: "#000000",
   },
   categoryIcon: {
     fontSize: 28,
