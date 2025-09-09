@@ -1,5 +1,6 @@
 "use client"
 
+import BookNowButton from "@/components/BookNowButton"
 import BottomTabBar from "@/components/BottomTabBar"
 import CategoryCard from "@/components/CategoryCard"
 import PhotographerCard from "@/components/PhotographerCard"
@@ -249,7 +250,7 @@ export default function Index() {
     // Subscription Highlight Section
     premiumCard: {
       marginHorizontal: 20,
-      backgroundColor: currentColors.cardBackground,
+      backgroundColor: "transparent",
       borderRadius: 16,
       padding: 24,
       alignItems: "center",
@@ -267,19 +268,6 @@ export default function Index() {
       textAlign: "center",
       marginBottom: 20,
       lineHeight: 20,
-    },
-    secondaryButton: {
-      borderWidth: 1,
-      borderColor: currentColors.primaryAccent,
-      paddingHorizontal: 24,
-      paddingVertical: 12,
-      borderRadius: 8,
-      backgroundColor: currentColors.primaryAccent,
-    },
-    secondaryButtonText: {
-      color: currentColors.cardBackground,
-      fontSize: 14,
-      fontWeight: "600",
     },
 
     // Bottom Tab Bar
@@ -312,6 +300,26 @@ export default function Index() {
     },
     tabBarTextActive: {
       color: currentColors.secondaryAccent,
+    },
+    footerContainer: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      alignItems: "center",
+      marginTop: 20,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
+    footerText: {
+      fontSize: 12,
+      marginHorizontal: 10,
+      marginBottom: 5,
+    },
+    footerLink: {
+      fontSize: 12,
+      fontWeight: "600",
+      marginHorizontal: 10,
+      marginBottom: 5,
     },
   });
 
@@ -351,18 +359,19 @@ export default function Index() {
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesList}>
             {[
-              { name: "Portrait", iconName: "camera" },
-              { name: "Wedding", iconName: "heart" },
-              { name: "Events", iconName: "calendar" },
-              { name: "Landscape", iconName: "map" },
-              { name: "Fashion", iconName: "tags" },
-              { name: "Wildlife", iconName: "paw" },
+              { name: "Portrait", iconName: "Image" },
+              { name: "Wedding", iconName: "Heart" },
+              { name: "Events", iconName: "Calendar" },
+              { name: "Landscape", iconName: "Mountain" },
+              { name: "Fashion", iconName: "Shirt" },
+              { name: "Wildlife", iconName: "PawPrint" },
             ].map((category, index) => (
               <CategoryCard
                 key={index}
                 name={category.name}
-                iconName={category.iconName}
+                iconName={category.iconName as any} // Cast to any for now to avoid strict type checking issues with dynamic icon loading
                 onPress={() => console.log(`${category.name} pressed`)}
+                currentColors={currentColors}
               />
             ))}
           </ScrollView>
@@ -394,13 +403,30 @@ export default function Index() {
 
         {/* Subscription Highlight */}
         <View style={styles.section}>
-          <View style={[styles.premiumCard, { backgroundColor: currentColors.cardBackground }]}>
-            <Text style={[styles.premiumTitle, { color: currentColors.primaryText }]}>Boost Your Visibility with Premium Plans</Text>
-            <Text style={[styles.premiumSubtitle, { color: currentColors.secondaryText }]}>Showcase your portfolio and reach more clients.</Text>
-            <TouchableOpacity style={[styles.secondaryButton, { borderColor: currentColors.primaryAccent, backgroundColor: currentColors.primaryAccent }]}>
-              <Text style={[styles.secondaryButtonText, { color: currentColors.cardBackground }]}>Learn More</Text>
-            </TouchableOpacity>
+          <View style={styles.premiumCard}>
+            <BookNowButton
+              onPress={() => console.log("Book Now Pressed")}
+              title="Book Now"
+              currentColors={currentColors}
+            />
           </View>
+        </View>
+
+        {/* Footer */}
+        <View style={styles.footerContainer}>
+          <TouchableOpacity onPress={() => console.log("About Pressed")}>
+            <Text style={[styles.footerLink, { color: currentColors.secondaryText }]}>About</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Contact Pressed")}>
+            <Text style={[styles.footerLink, { color: currentColors.secondaryText }]}>Contact</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Terms Pressed")}>
+            <Text style={[styles.footerLink, { color: currentColors.secondaryText }]}>Terms</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Privacy Policy Pressed")}>
+            <Text style={[styles.footerLink, { color: currentColors.secondaryText }]}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <Text style={[styles.footerText, { color: currentColors.secondaryText }]}>© 2025 LensLyric. All rights reserved.</Text>
         </View>
 
       </ScrollView>
