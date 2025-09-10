@@ -7,22 +7,22 @@ interface CategoryCardProps {
   name: string;
   iconName: keyof typeof LucideIcons;
   onPress: () => void;
-  currentColors: typeof Colors.light;
+  currentColors: typeof Colors.light & { categoryIconBg: string; categoryIcon: string; };
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ name, iconName, onPress, currentColors }) => {
-  const IconComponent = LucideIcons[iconName];
+  const Icon = LucideIcons[iconName] as React.ComponentType<any>;
 
-  if (!IconComponent) {
+  if (!Icon) {
     return null; // Or render a placeholder/error icon
   }
 
   return (
     <TouchableOpacity style={styles.categoryCard} onPress={onPress}>
-      <View style={[styles.categoryIconBackground, { backgroundColor: "#000000", borderColor: "#000000" }]}>
-        <IconComponent size={28} color={"#FFFFFF"} />
+      <View style={[styles.categoryIconBackground, { backgroundColor: currentColors.categoryIconBg }]}>
+        <Icon size={30} color={currentColors.categoryIcon} />
       </View>
-      <Text style={[styles.categoryName, { color: "#000000" }]}>{name}</Text>
+      <Text style={[styles.categoryName, { color: currentColors.primaryText }]}>{name}</Text>
     </TouchableOpacity>
   );
 };
@@ -30,7 +30,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ name, iconName, onPress, cu
 const styles = StyleSheet.create({
   categoryCard: {
     alignItems: 'center',
-    marginRight: 20,
+    marginRight: 0,
+    // Removed padding, borderRadius, shadow and elevation to remove the card background
+    width: 90, // Fixed width for better layout control
   },
   categoryIconBackground: {
     width: 60,
@@ -38,8 +40,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
-    borderWidth: 1,
+    marginBottom: 10,
+  },
+  categoryName: {
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 5,
   },
 });
 

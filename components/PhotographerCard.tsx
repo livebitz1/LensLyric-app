@@ -1,3 +1,4 @@
+import * as LucideIcons from "lucide-react-native";
 import React from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from "../constants/Colors";
@@ -12,6 +13,9 @@ interface PhotographerCardProps {
   distance: string;
   rating: number;
   onPress: () => void;
+  currentColors: typeof Colors.light;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 }
 
 const PhotographerCard: React.FC<PhotographerCardProps> = ({
@@ -22,23 +26,26 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({
   distance,
   rating,
   onPress,
+  currentColors,
+  isFavorite,
+  onToggleFavorite,
 }) => {
   return (
-    <TouchableOpacity style={styles.photographerCard} onPress={onPress}>
+    <TouchableOpacity style={[styles.photographerCard, { backgroundColor: currentColors.cardBackground, shadowColor: currentColors.shadow, borderColor: currentColors.border }]} onPress={onPress}>
       <Image source={{ uri: imageSource }} style={styles.photographerImage} />
       <View style={styles.cardContent}>
-        <Text style={styles.photographerName}>{name}</Text>
-        <Text style={styles.photographerSpecialty}>{specialty}</Text>
+        <Text style={[styles.photographerName, { color: currentColors.primaryText }]}>{name}</Text>
+        <Text style={[styles.photographerSpecialty, { color: currentColors.secondaryText }]}>{specialty}</Text>
         <View style={styles.cardFooter}>
-          <Text style={styles.price}>{price}</Text>
+          <Text style={[styles.price, { color: currentColors.primaryText }]}>{price}</Text>
           <View style={styles.ratingContainer}>
-            <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
-            <Text style={styles.ratingIcon}>★</Text>
+            <LucideIcons.Star size={16} color={currentColors.warning} fill={currentColors.warning} />
+            <Text style={[styles.ratingText, { color: currentColors.primaryText }]}>{rating.toFixed(1)}</Text>
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.favoriteButton}>
-        <Text style={styles.favoriteIcon}>♡</Text>
+      <TouchableOpacity style={styles.favoriteButton} onPress={onToggleFavorite}>
+        <LucideIcons.Heart size={20} color={isFavorite ? currentColors.error : currentColors.secondaryText} fill={isFavorite ? currentColors.error : "none"} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -46,79 +53,69 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({
 
 const styles = StyleSheet.create({
   photographerCard: {
-    width: width * 0.7,
-    maxWidth: 280,
-    backgroundColor: Colors.light.cardBackground,
-    borderRadius: 16,
-    marginRight: 16,
-    shadowColor: Colors.light.shadow,
-    shadowOffset: { width: 0, height: 1 }, // Adjusted shadow offset
-    shadowOpacity: 0.05, // Reduced shadow opacity
-    shadowRadius: 4, // Reduced shadow radius
-    elevation: 2, // Reduced elevation
+    width: width * 0.6,
+    maxWidth: 240,
+    borderRadius: 12,
+    marginRight: 12,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#000000", // Set border color to black
   },
   photographerImage: {
     width: "100%",
-    height: 160,
-    backgroundColor: Colors.light.border, // Using border color for image placeholder
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    height: 140, // Reduced image height
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
   },
   cardContent: {
-    padding: 16,
+    padding: 12,
   },
   photographerName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "600",
-    color: Colors.light.primaryText,
     marginBottom: 4,
   },
   photographerSpecialty: {
-    fontSize: 14,
-    color: Colors.light.secondaryText,
-    marginBottom: 12,
+    fontSize: 12,
+    marginBottom: 8,
   },
   cardFooter: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 6, // Adjusted margin top
   },
   price: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
-    color: Colors.light.primaryText,
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 4, // Adjusted gap
   },
   ratingText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "600",
-    color: Colors.light.primaryText,
-  },
-  ratingIcon: {
-    fontSize: 14,
-    color: Colors.light.warning,
   },
   favoriteButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "rgba(255,255,255,0.7)", // Keep translucent white
+    top: 8,
+    right: 8,
+    backgroundColor: Colors.light.cardBackground, // Use card background color
     borderRadius: 20,
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
     justifyContent: "center",
     alignItems: "center",
-  },
-  favoriteIcon: {
-    fontSize: 20,
-    color: Colors.light.secondaryAccent,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 2,
   },
 });
 

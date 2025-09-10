@@ -16,6 +16,10 @@ export const Colors = {
     success: '#27AE60',
     error: '#E74C3C',
     warning: '#F1C40F',
+    categoryIconBg: '#000000',
+    categoryIcon: '#FFFFFF',
+    filterButton: '#FFFFFF',
+    bookNowButton: '#000000',
   },
   dark: {
     primaryBackground: '#F2F4F7', // Light Mist
@@ -29,5 +33,9 @@ export const Colors = {
     success: '#27AE60',
     error: '#E74C3C',
     warning: '#F1C40F',
+    categoryIconBg: '#000000',
+    categoryIcon: '#FFFFFF',
+    filterButton: '#FFFFFF',
+    bookNowButton: '#000000',
   },
 };

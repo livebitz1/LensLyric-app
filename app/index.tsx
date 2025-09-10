@@ -15,6 +15,7 @@ export default function Index() {
   const [activeTab, setActiveTab] = useState("Home")
   const colorScheme = useColorScheme();
   const currentColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const [favoritePhotographers, setFavoritePhotographers] = useState<number[]>([])
 
   const borderAnim = new Animated.Value(0);
 
@@ -87,7 +88,7 @@ export default function Index() {
       flex: 1,
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: Colors.light.cardBackground,
+      backgroundColor: currentColors.cardBackground,
       borderRadius: 10,
       paddingHorizontal: 15,
       marginRight: 10,
@@ -98,16 +99,16 @@ export default function Index() {
     searchIcon: {
       fontSize: 20,
       marginRight: 10,
-      color: Colors.light.secondaryText,
+      color: currentColors.secondaryText,
     },
     searchTextInput: {
       flex: 1,
       fontSize: 16,
-      color: Colors.light.primaryText,
+      color: currentColors.primaryText, // Apply text color
       fontWeight: "500",
     },
     filterButton: {
-      backgroundColor: Colors.light.cardBackground,
+      backgroundColor: currentColors.filterButton,
       borderRadius: 10,
       width: 50,
       height: 50,
@@ -118,7 +119,7 @@ export default function Index() {
     },
     filterIcon: {
       fontSize: 20,
-      color: Colors.light.primaryText,
+      color: currentColors.primaryText,
     },
 
     // Section Styles
@@ -396,6 +397,15 @@ export default function Index() {
                 distance="5 miles"
                 rating={4.7}
                 onPress={() => console.log("Photographer pressed")}
+                currentColors={currentColors}
+                isFavorite={favoritePhotographers.includes(index)}
+                onToggleFavorite={() => {
+                  setFavoritePhotographers((prev) =>
+                    prev.includes(index)
+                      ? prev.filter((id) => id !== index)
+                      : [...prev, index]
+                  )
+                }}
               />
             ))}
           </ScrollView>
