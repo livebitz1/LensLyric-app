@@ -28,7 +28,7 @@ const BottomTabBar: React.FC<BottomTabBarProps> = ({ activeTab, onTabPress }) =>
       <TabBarItem icon="home-outline" text="Home" isActive={activeTab === "Home"} onPress={() => onTabPress("Home")} />
       <TabBarItem icon="compass-outline" text="Explore" isActive={activeTab === "Explore"} onPress={() => onTabPress("Explore")} />
       <TabBarItem icon="heart-outline" text="Favorite" isActive={activeTab === "Favorite"} onPress={() => onTabPress("Favorite")} />
-      <TabBarItem icon="ticket-outline" text="Ticket" isActive={activeTab === "Ticket"} onPress={() => onTabPress("Ticket")} />
+      <TabBarItem icon="book-outline" text="Book" isActive={activeTab === "Book"} onPress={() => onTabPress("Book")} />
       <TabBarItem icon="person-outline" text="Profile" isActive={activeTab === "Profile"} onPress={() => onTabPress("Profile")} />
     </View>
   );

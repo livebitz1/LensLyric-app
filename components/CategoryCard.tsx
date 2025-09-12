@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import * as LucideIcons from "lucide-react-native";
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -6,19 +7,19 @@ import { Colors } from "../constants/Colors";
 interface CategoryCardProps {
   name: string;
   iconName: keyof typeof LucideIcons;
-  onPress: () => void;
   currentColors: typeof Colors.light & { categoryIconBg: string; categoryIcon: string; };
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ name, iconName, onPress, currentColors }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ name, iconName, currentColors }) => {
   const Icon = LucideIcons[iconName] as React.ComponentType<any>;
+  const router = useRouter();
 
   if (!Icon) {
     return null; // Or render a placeholder/error icon
   }
 
   return (
-    <TouchableOpacity style={styles.categoryCard} onPress={onPress}>
+    <TouchableOpacity style={styles.categoryCard} onPress={() => router.push('/categories')}>
       <View style={[styles.categoryIconBackground, { backgroundColor: currentColors.categoryIconBg }]}>
         <Icon size={30} color={currentColors.categoryIcon} />
       </View>

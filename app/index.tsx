@@ -5,8 +5,9 @@ import BottomTabBar from "@/components/BottomTabBar"
 import CategoryCard from "@/components/CategoryCard"
 import PhotographerCard from "@/components/PhotographerCard"
 import { useColorScheme } from '@/hooks/useColorScheme'
+import { router } from "expo-router"
 import { useEffect, useState } from "react"
-import { Animated, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { Colors } from "../constants/Colors"
 
 const { width } = Dimensions.get("window")
@@ -75,6 +76,18 @@ export default function Index() {
     taglineText: {
       fontSize: 24,
       fontWeight: "bold",
+    },
+    profileButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      overflow: "hidden",
+      borderWidth: 1,
+      borderColor: "#000000",
+    },
+    profileImage: {
+      width: "100%",
+      height: "100%",
     },
 
     // Search and Filter Styles
@@ -324,6 +337,21 @@ export default function Index() {
     },
   });
 
+  const handleTabChange = (tabName: string) => {
+    setActiveTab(tabName);
+    if (tabName === "Home") {
+      router.replace("/");
+    } else if (tabName === "Explore") {
+      router.replace("/categories");
+    } else if (tabName === "Favorite") {
+      // router.replace("/favorite"); // Assuming you have a favorite page
+    } else if (tabName === "Book") {
+      router.replace("/book");
+    } else if (tabName === "Profile") {
+      // router.replace("/profile"); // Assuming you have a profile page
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.topSectionBackground}>
@@ -332,6 +360,12 @@ export default function Index() {
             <Text style={styles.welcomeText}>Welcome Back,</Text>
             <Text style={styles.taglineText}>Your Shot, Your Way.</Text>
           </View>
+          <TouchableOpacity style={styles.profileButton} onPress={() => console.log("Profile button pressed")}>
+            <Image
+              source={{ uri: "https://i.pinimg.com/736x/17/12/7f/17127f74c8e2e36a085dbede0cc79c9e.jpg" }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.searchFilterContainer}>
@@ -371,7 +405,6 @@ export default function Index() {
                 key={index}
                 name={category.name}
                 iconName={category.iconName as any} // Cast to any for now to avoid strict type checking issues with dynamic icon loading
-                onPress={() => console.log(`${category.name} pressed`)}
                 currentColors={currentColors}
               />
             ))}
@@ -396,6 +429,7 @@ export default function Index() {
                 price="$150/hr"
                 distance="5 miles"
                 rating={4.7}
+                numberOfReviews={120} // Added numberOfReviews prop
                 onPress={() => console.log("Photographer pressed")}
                 currentColors={currentColors}
                 isFavorite={favoritePhotographers.includes(index)}
@@ -442,7 +476,7 @@ export default function Index() {
       </ScrollView>
 
       {/* Bottom Tab Bar */}
-      <BottomTabBar activeTab={activeTab} onTabPress={setActiveTab} />
+      <BottomTabBar activeTab={activeTab} onTabPress={handleTabChange} />
     </SafeAreaView>
   )
 }

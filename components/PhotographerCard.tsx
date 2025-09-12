@@ -2,6 +2,7 @@ import * as LucideIcons from "lucide-react-native";
 import React from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from "../constants/Colors";
+import BookNowButton from './BookNowButton';
 
 const { width } = Dimensions.get("window");
 
@@ -10,8 +11,9 @@ interface PhotographerCardProps {
   name: string;
   specialty: string;
   price: string;
-  distance: string;
   rating: number;
+  numberOfReviews: number; // Added number of reviews
+  distance: string; // Add distance prop
   onPress: () => void;
   currentColors: typeof Colors.light;
   isFavorite: boolean;
@@ -23,8 +25,9 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({
   name,
   specialty,
   price,
-  distance,
   rating,
+  numberOfReviews, // Destructure new prop
+  distance, // Destructure distance prop
   onPress,
   currentColors,
   isFavorite,
@@ -41,8 +44,15 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({
           <View style={styles.ratingContainer}>
             <LucideIcons.Star size={16} color={currentColors.warning} fill={currentColors.warning} />
             <Text style={[styles.ratingText, { color: currentColors.primaryText }]}>{rating.toFixed(1)}</Text>
+            <Text style={[styles.ratingText, { color: currentColors.secondaryText }]}>({numberOfReviews} reviews)</Text>
           </View>
         </View>
+        <Text style={[styles.distanceText, { color: currentColors.secondaryText }]}>{distance}</Text>
+        <BookNowButton
+          onPress={() => console.log(`Book ${name} now!`)}
+          title="Book Now"
+          currentColors={currentColors}
+        />
       </View>
       <TouchableOpacity style={styles.favoriteButton} onPress={onToggleFavorite}>
         <LucideIcons.Heart size={20} color={isFavorite ? currentColors.error : currentColors.secondaryText} fill={isFavorite ? currentColors.error : "none"} />
@@ -87,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 6, // Adjusted margin top
+    marginBottom: 12, // Add margin bottom to separate from button
   },
   price: {
     fontSize: 14,
@@ -100,6 +111,12 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 12,
     fontWeight: "600",
+  },
+  distanceText: { // Style for distance
+    fontSize: 12,
+    color: Colors.light.secondaryText,
+    marginBottom: 8,
+    textAlign: "right",
   },
   favoriteButton: {
     position: "absolute",

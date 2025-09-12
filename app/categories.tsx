@@ -1,19 +1,21 @@
 "use client"
 
-import { Stack, router } from "expo-router"
+import { router } from "expo-router"
+
 import * as LucideIcons from "lucide-react-native"
 import type React from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
-    Animated,
-    FlatList,
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    useWindowDimensions,
+  Animated,
+  FlatList,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
 } from "react-native"
+import Header from "../components/Header"
 import SearchBar from "../components/SearchBar"
 
 interface Category {
@@ -154,8 +156,6 @@ const CategoriesScreen = () => {
     )
   }, [searchQuery])
 
-  const handleBackPress = () => router.push("/")
-
   const handleCategoryPress = (categoryName: string) => {
     console.log(`[Category pressed]: ${categoryName}`)
     if (Platform.OS === "ios") {
@@ -173,26 +173,9 @@ const CategoriesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          headerTitle: "Categories",
-          headerStyle: { backgroundColor: "#fff" },
-          headerTitleStyle: {
-            fontWeight: "700",
-            fontSize: responsiveConfig.isTablet ? 20 : 18,
-            color: "#111",
-          },
-          headerTintColor: "#111",
-          headerLeft: () => (
-            <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-              <LucideIcons.ArrowLeft size={22} color="#111" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
+      <Header title="Explore Categories" onBackPress={() => router.replace("/")} />
       <Animated.View style={{ flex: 1, opacity: fadeAnim, paddingHorizontal: responsiveConfig.padding }}>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={[styles.headerTitle, { fontSize: responsiveConfig.isTablet ? 34 : 26 }]}>
             Explore Categories
           </Text>
@@ -200,7 +183,7 @@ const CategoriesScreen = () => {
             Find photographers for every occasion
           </Text>
           <View style={[styles.headerDivider, { width: responsiveConfig.isTablet ? 50 : 36 }]} />
-        </View>
+        </View> */}
 
         <SearchBar
           isTablet={responsiveConfig.isTablet}
